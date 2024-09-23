@@ -6,6 +6,7 @@ module.exports = {
   mode: "development",
   entry: {
     index: "./src/index.js",
+    game: "./src/game/game.js",
   },
   devtool: "eval-source-map",
   devServer: {
