@@ -1,4 +1,4 @@
-import { Ship, Gameboard } from "./game.js";
+import { Ship, Gameboard, Player } from "./game.js";
 
 /* Ship */
 
@@ -69,3 +69,35 @@ test("Recieve Attack hits && sinks", () => {
     shipExist: { length: 1, numOfHits: 1, sunkStatus: true },
   });
 });
+
+/* Player */
+
+test("Give Attack", () => {
+  //give attack call recieveAttack on enemy board
+  let testPlayer = new Player();
+  let testPlayer2 = new Player();
+  testPlayer2.oceanBoard.placeShip([['H', 3]])
+  testPlayer.giveAttack(testPlayer2, ['H', 3])
+
+  expect(testPlayer.targetBoard.oceanInfo[72]).toHaveProperty('hit', true)
+  expect(testPlayer2.oceanBoard.oceanInfo[72]).toHaveProperty('hit', true)
+})
+
+test("Give Attack Misses", () => {
+  let testPlayer = new Player();
+  let testPlayer2 = new Player();
+  testPlayer.giveAttack(testPlayer2, ['H', 3])
+
+  expect(testPlayer.targetBoard.oceanInfo[72]).toHaveProperty('guess', true)
+  expect(testPlayer2.oceanBoard.oceanInfo[72]).toHaveProperty('guess', true)
+})
+
+test("Sink Ship with Attacks", () => {
+  let testPlayer = new Player();
+  let testPlayer2 = new Player();
+  testPlayer2.oceanBoard.placeShip([['H', 3], ['H', 4]])
+  testPlayer.giveAttack(testPlayer2, ['H', 3])
+  testPlayer.giveAttack(testPlayer2, ['H', 4])
+
+  expect(testPlayer2.oceanBoard.oceanInfo[72].shipExist).toHaveProperty('sunkStatus', true)
+})
