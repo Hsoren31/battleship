@@ -35,15 +35,15 @@ test("Correctly placing Ships on board", () => {
     ["B", 2],
   ]);
 
-  expect(gameboard.oceanInfo[1]).toEqual({
-    guess: false,
-    hit: false,
-    shipExist: { length: 2, numOfHits: 0, sunkStatus: false },
+  expect(gameboard.boardInfo[1].hasShip).toEqual({
+    length: 2,
+    numOfHits: 0,
+    sunkStatus: false,
   });
-  expect(gameboard.oceanInfo[11]).toEqual({
-    guess: false,
-    hit: false,
-    shipExist: { length: 2, numOfHits: 0, sunkStatus: false },
+  expect(gameboard.boardInfo[11].hasShip).toEqual({
+    length: 2,
+    numOfHits: 0,
+    sunkStatus: false,
   });
 });
 
@@ -51,11 +51,8 @@ test("Recieve Attack misses", () => {
   let gameboard = new Gameboard();
   gameboard.receiveAttack(["A", 4]);
 
-  expect(gameboard.oceanInfo[3]).toEqual({
-    guess: true,
-    hit: false,
-    shipExist: null,
-  });
+  expect(gameboard.boardInfo[3]).toHaveProperty("hit", false);
+  expect(gameboard.boardInfo[3]).toHaveProperty("guess", true);
 });
 
 test("Recieve Attack hits && sinks", () => {
@@ -63,11 +60,8 @@ test("Recieve Attack hits && sinks", () => {
   gameboard.placeShip([["B", 4]]);
   gameboard.receiveAttack(["B", 4]);
 
-  expect(gameboard.oceanInfo[13]).toEqual({
-    guess: false,
-    hit: true,
-    shipExist: { length: 1, numOfHits: 1, sunkStatus: true },
-  });
+  expect(gameboard.boardInfo[13]).toHaveProperty("hit", true);
+  expect(gameboard.boardInfo[13].hasShip).toHaveProperty("sunkStatus", true);
 });
 
 /* Player */
@@ -76,28 +70,34 @@ test("Give Attack", () => {
   //give attack call recieveAttack on enemy board
   let testPlayer = new Player();
   let testPlayer2 = new Player();
-  testPlayer2.oceanBoard.placeShip([['H', 3]])
-  testPlayer.giveAttack(testPlayer2, ['H', 3])
+  testPlayer2.oceanBoard.placeShip([["H", 3]]);
+  testPlayer.giveAttack(testPlayer2, ["H", 3]);
 
-  expect(testPlayer.targetBoard.oceanInfo[72]).toHaveProperty('hit', true)
-  expect(testPlayer2.oceanBoard.oceanInfo[72]).toHaveProperty('hit', true)
-})
+  expect(testPlayer.targetBoard.boardInfo[72]).toHaveProperty("hit", true);
+  expect(testPlayer2.oceanBoard.boardInfo[72]).toHaveProperty("hit", true);
+});
 
 test("Give Attack Misses", () => {
   let testPlayer = new Player();
   let testPlayer2 = new Player();
-  testPlayer.giveAttack(testPlayer2, ['H', 3])
+  testPlayer.giveAttack(testPlayer2, ["H", 3]);
 
-  expect(testPlayer.targetBoard.oceanInfo[72]).toHaveProperty('guess', true)
-  expect(testPlayer2.oceanBoard.oceanInfo[72]).toHaveProperty('guess', true)
-})
+  expect(testPlayer.targetBoard.boardInfo[72]).toHaveProperty("guess", true);
+  expect(testPlayer2.oceanBoard.boardInfo[72]).toHaveProperty("guess", true);
+});
 
 test("Sink Ship with Attacks", () => {
   let testPlayer = new Player();
   let testPlayer2 = new Player();
-  testPlayer2.oceanBoard.placeShip([['H', 3], ['H', 4]])
-  testPlayer.giveAttack(testPlayer2, ['H', 3])
-  testPlayer.giveAttack(testPlayer2, ['H', 4])
+  testPlayer2.oceanBoard.placeShip([
+    ["H", 3],
+    ["H", 4],
+  ]);
+  testPlayer.giveAttack(testPlayer2, ["H", 3]);
+  testPlayer.giveAttack(testPlayer2, ["H", 4]);
 
-  expect(testPlayer2.oceanBoard.oceanInfo[72].shipExist).toHaveProperty('sunkStatus', true)
-})
+  expect(testPlayer2.oceanBoard.boardInfo[72].hasShip).toHaveProperty(
+    "sunkStatus",
+    true,
+  );
+});

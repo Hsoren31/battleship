@@ -18,8 +18,8 @@ class Ship {
   }
 }
 
-function makeGrid() {
-  let alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+function makeCoordinates() {
+  let alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   let board = [];
 
   for (let i = 0; i < 10; i++) {
@@ -31,13 +31,15 @@ function makeGrid() {
   return board;
 }
 
-function buildBoardInfo(board) {
+function buildBoardInfo() {
   let newBoard = [];
-  for (let i = 0; i < board.length; i++) {
+  let coordinates = makeCoordinates();
+  for (let i = 0; i < coordinates.length; i++) {
     newBoard[i] = {
+      coordinate: coordinates[i],
       guess: false,
       hit: false,
-      shipExist: null,
+      hasShip: null,
     };
   }
 
@@ -46,7 +48,10 @@ function buildBoardInfo(board) {
 
 function findIndex(arr, target) {
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i][0] === target[0] && arr[i][1] === target[1]) {
+    if (
+      arr[i].coordinate[0] === target[0] &&
+      arr[i].coordinate[1] === target[1]
+    ) {
       return i;
     }
   }
@@ -54,50 +59,49 @@ function findIndex(arr, target) {
 
 class Gameboard {
   constructor() {
-    this.oceanGrid = makeGrid();
-    this.oceanInfo = buildBoardInfo(this.oceanGrid);
+    this.boardInfo = buildBoardInfo();
   }
 
   placeShip(coordinates) {
     let ship = new Ship(coordinates.length);
     coordinates.forEach((coordinate) => {
-      let index = findIndex(this.oceanGrid, coordinate);
-      return (this.oceanInfo[index].shipExist = ship);
+      let index = findIndex(this.boardInfo, coordinate);
+      return (this.boardInfo[index].hasShip = ship);
     });
   }
 
   receiveAttack(coordinate) {
-    let index = findIndex(this.oceanGrid, coordinate);
-    if (this.oceanInfo[index].shipExist !== null) {
+    let index = findIndex(this.boardInfo, coordinate);
+    if (this.boardInfo[index].hasShip !== null) {
       //Increase Ship hit count, check if ship sunk
-      this.oceanInfo[index].shipExist.hit();
-      this.oceanInfo[index].shipExist.isSunk();
+      this.boardInfo[index].hasShip.hit();
+      this.boardInfo[index].hasShip.isSunk();
       //Update Board info to show index is a hit
-      this.oceanInfo[index].hit = true;
-      return ('hit');
+      this.boardInfo[index].hit = true;
+      return "hit";
     } else {
       //Update Board info to show index is a miss
-      this.oceanInfo[index].guess = true
-      return ('miss');
+      this.boardInfo[index].guess = true;
+      return "miss";
     }
   }
 }
 
 class Player {
-  constructor(){
-    //Player sees their own ships 
+  constructor() {
+    //Player sees their own ships
     this.oceanBoard = new Gameboard();
     //Players sees the hit/miss they've made on the enemy
     this.targetBoard = new Gameboard();
   }
 
-  giveAttack(enemy, coordinate){
-    let index = findIndex(this.oceanBoard.oceanGrid, coordinate);
+  giveAttack(enemy, coordinate) {
+    let index = findIndex(this.oceanBoard.boardInfo, coordinate);
 
-    if(enemy.oceanBoard.receiveAttack(coordinate) === 'hit'){
-      this.targetBoard.oceanInfo[index].hit = true;
+    if (enemy.oceanBoard.receiveAttack(coordinate) === "hit") {
+      this.targetBoard.boardInfo[index].hit = true;
     } else {
-      this.targetBoard.oceanInfo[index].guess = true;
+      this.targetBoard.boardInfo[index].guess = true;
     }
   }
 }
