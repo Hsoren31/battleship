@@ -1,5 +1,6 @@
 .square {
   border: 1px solid black;
+  background-color: lightblue;
 }
 
 .field-container {
@@ -36,7 +37,19 @@
   grid-template-columns: 50px 500px;
 }
 
-main {
+#game_container {
   display: flex;
   gap: 10em;
+}
+
+.square_hit {
+  background-color: red;
+}
+
+.square_ship {
+  background-color: gray;
+}
+
+.square_guess {
+  background-color: lightgrey;
 }
