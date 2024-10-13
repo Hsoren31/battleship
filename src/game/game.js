@@ -1,23 +1,3 @@
-class Ship {
-  constructor(length) {
-    this.length = length;
-    this.numOfHits = 0;
-    this.sunkStatus = false;
-  }
-
-  hit() {
-    return (this.numOfHits = this.numOfHits + 1);
-  }
-
-  isSunk() {
-    if (this.length === this.numOfHits) {
-      return (this.sunkStatus = true);
-    } else {
-      return false;
-    }
-  }
-}
-
 function makeCoordinates() {
   let alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   let board = [];
@@ -53,6 +33,48 @@ function findIndex(arr, target) {
       arr[i].coordinate[1] === target[1]
     ) {
       return i;
+    }
+  }
+}
+
+function displayBoard(boardInfo, container) {
+  for (let i = 0; i < 100; i++) {
+    let square = document.createElement("div");
+    square.className = "square";
+    square.dataset.coordinate = boardInfo[i].coordinate;
+
+    if(boardInfo[i].hit !== false){
+      square.classList.add('square_hit')
+    }
+
+    if(boardInfo[i].hasShip !== null){
+      square.classList.add('square_ship')
+    }
+
+    if(boardInfo[i].guess !== false){
+      square.classList.add('square_guess')
+    }
+
+    container.appendChild(square);
+  }
+}
+
+class Ship {
+  constructor(length) {
+    this.length = length;
+    this.numOfHits = 0;
+    this.sunkStatus = false;
+  }
+
+  hit() {
+    return (this.numOfHits = this.numOfHits + 1);
+  }
+
+  isSunk() {
+    if (this.length === this.numOfHits) {
+      return (this.sunkStatus = true);
+    } else {
+      return false;
     }
   }
 }
@@ -95,6 +117,14 @@ class Player {
     this.targetBoard = new Gameboard();
   }
 
+  placeShips(coordinatesA, coordinatesB, coordinatesC, coordinatesD, coordinatesE){
+   this.oceanBoard.placeShip(coordinatesA)
+   this.oceanBoard.placeShip(coordinatesB)
+   this.oceanBoard.placeShip(coordinatesC)
+   this.oceanBoard.placeShip(coordinatesD)
+   this.oceanBoard.placeShip(coordinatesE)
+  }
+
   giveAttack(enemy, coordinate) {
     let index = findIndex(this.oceanBoard.boardInfo, coordinate);
 
@@ -103,6 +133,14 @@ class Player {
     } else {
       this.targetBoard.boardInfo[index].guess = true;
     }
+  }
+
+  displayBoards(){
+    const userBoard = document.querySelector("#user_field");
+    const targetBoard = document.querySelector("#target_field");
+  
+    displayBoard(this.oceanBoard.boardInfo, userBoard);
+    displayBoard(this.targetBoard.boardInfo, targetBoard);
   }
 }
 
