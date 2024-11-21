@@ -43,16 +43,16 @@ function displayBoard(boardInfo, container) {
     square.className = "square";
     square.dataset.coordinate = boardInfo[i].coordinate;
 
-    if(boardInfo[i].hit !== false){
-      square.classList.add('square_hit')
+    if (boardInfo[i].hit !== false) {
+      square.classList.add("square_hit");
     }
 
-    if(boardInfo[i].hasShip !== null){
-      square.classList.add('square_ship')
+    if (boardInfo[i].hasShip !== null) {
+      square.classList.add("square_ship");
     }
 
-    if(boardInfo[i].guess !== false){
-      square.classList.add('square_guess')
+    if (boardInfo[i].guess !== false) {
+      square.classList.add("square_guess");
     }
 
     container.appendChild(square);
@@ -107,31 +107,39 @@ class Gameboard {
       return "miss";
     }
   }
+
+  isFleetSunk(){
+    const ships = this.boardInfo.filter((index) => {
+      return index.hasShip !== null;
+    });
+
+    return ships.every((ship) => {
+      return ship.hasShip.sunkStatus !== false;
+    })
+  }
 }
 
 class Player {
   constructor() {
-    //Player sees their own ships
     this.oceanBoard = new Gameboard();
-    //Players sees the hit/miss they've made on the enemy
-    this.targetBoard = new Gameboard();
+    this.targetBoard = buildBoardInfo();
   }
 
-  placeShips(coordinatesA, coordinatesB, coordinatesC, coordinatesD, coordinatesE){
-   this.oceanBoard.placeShip(coordinatesA)
-   this.oceanBoard.placeShip(coordinatesB)
-   this.oceanBoard.placeShip(coordinatesC)
-   this.oceanBoard.placeShip(coordinatesD)
-   this.oceanBoard.placeShip(coordinatesE)
+  placeFleet(coordinateA, coordinateB, coordinateC, coordinateD, coordinateE) {
+    this.oceanBoard.placeShip(coordinateA);
+    this.oceanBoard.placeShip(coordinateB);
+    this.oceanBoard.placeShip(coordinateC);
+    this.oceanBoard.placeShip(coordinateD);
+    this.oceanBoard.placeShip(coordinateE);
   }
 
   giveAttack(enemy, coordinate) {
     let index = findIndex(this.oceanBoard.boardInfo, coordinate);
 
     if (enemy.oceanBoard.receiveAttack(coordinate) === "hit") {
-      this.targetBoard.boardInfo[index].hit = true;
+      this.targetBoard[index].hit = true;
     } else {
-      this.targetBoard.boardInfo[index].guess = true;
+      this.targetBoard[index].guess = true;
     }
   }
 
@@ -140,7 +148,7 @@ class Player {
     const targetBoard = document.querySelector("#target_field");
   
     displayBoard(this.oceanBoard.boardInfo, userBoard);
-    displayBoard(this.targetBoard.boardInfo, targetBoard);
+    displayBoard(this.targetBoard, targetBoard);
   }
 }
 
