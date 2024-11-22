@@ -37,7 +37,14 @@ function findIndex(arr, target) {
   }
 }
 
+function clearElement(element){
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
+
 function displayBoard(boardInfo, container) {
+  clearElement(container)
   for (let i = 0; i < 100; i++) {
     let square = document.createElement("div");
     square.className = "square";
@@ -57,6 +64,20 @@ function displayBoard(boardInfo, container) {
 
     container.appendChild(square);
   }
+}
+
+function getCoordinateFormatted(coordinate){
+  let coordinateFull = Array.from(coordinate);
+  let coordinateLetter = coordinateFull.shift();
+  let coordinateNum = null;
+  if(coordinateFull.length === 2) {
+    coordinateNum = coordinateFull.pop();
+  } else {
+    coordinateNum = coordinateFull.slice(-2).join('');
+  }
+
+  let coordinateFormatted = [coordinateLetter.toString(), parseInt(coordinateNum)];
+  return coordinateFormatted;
 }
 
 class Ship {
@@ -134,6 +155,7 @@ class Player {
   }
 
   giveAttack(enemy, coordinate) {
+    coordinate = getCoordinateFormatted(coordinate)
     let index = findIndex(this.oceanBoard.boardInfo, coordinate);
 
     if (enemy.oceanBoard.receiveAttack(coordinate) === "hit") {
@@ -141,6 +163,8 @@ class Player {
     } else {
       this.targetBoard[index].guess = true;
     }
+
+    this.displayBoards();
   }
 
   displayBoards(){
