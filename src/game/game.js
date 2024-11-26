@@ -37,14 +37,24 @@ function findIndex(arr, target) {
   }
 }
 
-function clearElement(element){
+function findCoordinate(index) {
+  const tempBoard = buildBoardInfo();
+  return tempBoard[index].coordinate;
+}
+
+function findAlpha(letter) {
+  let alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  return alpha.indexOf(letter);
+}
+
+function clearElement(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
 }
 
 function displayBoard(boardInfo, container) {
-  clearElement(container)
+  clearElement(container);
   for (let i = 0; i < 100; i++) {
     let square = document.createElement("div");
     square.className = "square";
@@ -66,18 +76,81 @@ function displayBoard(boardInfo, container) {
   }
 }
 
-function getCoordinateFormatted(coordinate){
+function getCoordinateFormatted(coordinate) {
   let coordinateFull = Array.from(coordinate);
   let coordinateLetter = coordinateFull.shift();
   let coordinateNum = null;
-  if(coordinateFull.length === 2) {
+  if (coordinateFull.length === 2) {
     coordinateNum = coordinateFull.pop();
   } else {
-    coordinateNum = coordinateFull.slice(-2).join('');
+    coordinateNum = coordinateFull.slice(-2).join("");
   }
 
-  let coordinateFormatted = [coordinateLetter.toString(), parseInt(coordinateNum)];
+  let coordinateFormatted = [
+    coordinateLetter.toString(),
+    parseInt(coordinateNum),
+  ];
   return coordinateFormatted;
+}
+
+function generateIndex() {
+  return Math.floor(Math.random() * 99);
+}
+
+function generateCoordinate() {
+  return findCoordinate(generateIndex());
+}
+
+function generateAxis() {
+  let axis = Math.floor(Math.random() * 2);
+
+  if (axis === 0) {
+    return "x";
+  } else {
+    return "y";
+  }
+}
+
+function generateShipCoordinates(
+  shipSize,
+  coordinates = [generateCoordinate()],
+  axis = generateAxis(),
+) {
+  const alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  let x = null;
+  let y = null;
+
+  if (shipSize > 1) {
+    if (axis === "x") {
+      x = findAlpha(coordinates[coordinates.length - 1][0]) + 1;
+      y = coordinates[coordinates.length - 1][1];
+    } else if (axis === "y") {
+      x = findAlpha(coordinates[coordinates.length - 1][0]);
+      y = coordinates[coordinates.length - 1][1] + 1;
+    }
+    coordinates.push([alpha[x], y]);
+    generateShipCoordinates(shipSize - 1, coordinates, axis);
+  }
+  return coordinates;
+}
+
+function avoidOverlap(board, coordinates) {
+  const indexes = [];
+  coordinates.forEach((coordinate) => {
+    indexes.push(findIndex(board, coordinate));
+  });
+  
+  let validValues = indexes.every((index) => {
+    return index !== undefined;
+  });
+
+  if (validValues === true) {
+    return indexes.every((index) => {
+      return board[index].hasShip === null;
+    });
+  } else {
+    return false;
+  }
 }
 
 class Ship {
@@ -129,14 +202,14 @@ class Gameboard {
     }
   }
 
-  isFleetSunk(){
+  isFleetSunk() {
     const ships = this.boardInfo.filter((index) => {
       return index.hasShip !== null;
     });
 
     return ships.every((ship) => {
       return ship.hasShip.sunkStatus !== false;
-    })
+    });
   }
 }
 
@@ -155,7 +228,7 @@ class Player {
   }
 
   giveAttack(enemy, coordinate) {
-    coordinate = getCoordinateFormatted(coordinate)
+    coordinate = getCoordinateFormatted(coordinate);
     let index = findIndex(this.oceanBoard.boardInfo, coordinate);
 
     if (enemy.oceanBoard.receiveAttack(coordinate) === "hit") {
@@ -167,13 +240,56 @@ class Player {
     this.displayBoards();
   }
 
-  displayBoards(){
+  displayBoards() {
     const userBoard = document.querySelector("#user_field");
     const targetBoard = document.querySelector("#target_field");
-  
+
     displayBoard(this.oceanBoard.boardInfo, userBoard);
     displayBoard(this.targetBoard, targetBoard);
   }
 }
 
-export { Ship, Gameboard, Player };
+class CompPlayer {
+  constructor() {
+    this.oceanBoard = new Gameboard();
+    this.targetBoard = buildBoardInfo();
+  }
+
+  GiveAttack(enemy) {
+    let index = generateIndex(0, 99);
+    let coordinate = this.oceanBoard[index].coordinate;
+
+    if (enemy.oceanBoard.receiveAttack(coordinate) === "hit") {
+      this.targetBoard[index].hit = true;
+    } else {
+      this.targetBoard[index].guess = true;
+    }
+  }
+
+  PlaceFleet() {
+    function placeCoordinates(board, shipSize) {
+      const shipCoordinates = generateShipCoordinates(shipSize);
+      if (avoidOverlap(board.boardInfo, shipCoordinates) === true){
+        board.placeShip(shipCoordinates);
+      } else {
+        placeCoordinates(board, shipSize);
+      }
+    }
+
+    placeCoordinates(this.oceanBoard, 5);
+    placeCoordinates(this.oceanBoard, 4);
+    placeCoordinates(this.oceanBoard, 3);
+    placeCoordinates(this.oceanBoard, 3);
+    placeCoordinates(this.oceanBoard, 2);
+  }
+
+  displayBoards() {
+    const userBoard = document.querySelector("#user_field");
+    const targetBoard = document.querySelector("#target_field");
+
+    displayBoard(this.oceanBoard.boardInfo, userBoard);
+    displayBoard(this.targetBoard, targetBoard);
+  }
+}
+
+export { Ship, Gameboard, Player, CompPlayer };
