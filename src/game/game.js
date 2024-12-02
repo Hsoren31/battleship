@@ -240,22 +240,7 @@ class Player {
     this.displayBoards();
   }
 
-  displayBoards() {
-    const userBoard = document.querySelector("#user_field");
-    const targetBoard = document.querySelector("#target_field");
-
-    displayBoard(this.oceanBoard.boardInfo, userBoard);
-    displayBoard(this.targetBoard, targetBoard);
-  }
-}
-
-class CompPlayer {
-  constructor() {
-    this.oceanBoard = new Gameboard();
-    this.targetBoard = buildBoardInfo();
-  }
-
-  GiveAttack(enemy) {
+  randomAttack(enemy) {
     let index = generateIndex(0, 99);
     let coordinate = this.oceanBoard[index].coordinate;
 
@@ -266,7 +251,7 @@ class CompPlayer {
     }
   }
 
-  PlaceFleet() {
+  placeRandomFleet() {
     function placeCoordinates(board, shipSize) {
       const shipCoordinates = generateShipCoordinates(shipSize);
       if (avoidOverlap(board.boardInfo, shipCoordinates) === true){
@@ -292,4 +277,4 @@ class CompPlayer {
   }
 }
 
-export { Ship, Gameboard, Player, CompPlayer };
+export { Ship, Gameboard, Player };
