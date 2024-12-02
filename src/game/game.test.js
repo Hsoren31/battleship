@@ -1,4 +1,6 @@
-import { Ship, Gameboard, Player } from "./game.js";
+import { Ship } from "./ship";
+import { Gameboard } from "./gameboard";
+import { Player } from "./player";
 
 /* Ship */
 
