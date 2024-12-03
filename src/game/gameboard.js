@@ -39,14 +39,20 @@ function findIndex(arr, target) {
   }
 }
 
-function findCoordinate(index) {
-  const tempBoard = buildBoardInfo();
-  return tempBoard[index].coordinate;
+function findCoordinate(board, target) {
+  return board[target].coordinate;
 }
 
-function findAlpha(letter) {
-  let alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-  return alpha.indexOf(letter);
+function findAlpha(targetIndex) {
+  //Returns the letter of the passed in index
+  const alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  return alpha[targetIndex];
+}
+
+function findAlphaIndex(targetLetter) {
+  //Returns the index of the passed in letter
+  const alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  return alpha.findIndex((letter) => letter === targetLetter);
 }
 
 function generateIndex() {
@@ -54,59 +60,79 @@ function generateIndex() {
 }
 
 function generateCoordinate() {
-  return findCoordinate(generateIndex());
+  let board = buildBoardInfo();
+  let index = generateIndex();
+  return findCoordinate(board, index);
 }
 
 function generateAxis() {
-  let axis = Math.floor(Math.random() * 2);
-
-  if (axis === 0) {
-    return "x";
-  } else {
-    return "y";
-  }
+  return Math.floor(Math.random() * 2);
 }
 
-function generateShipCoordinates(
-  shipSize,
+function generateShip(
+  size,
   coordinates = [generateCoordinate()],
   axis = generateAxis(),
 ) {
-  const alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-  let x = null;
-  let y = null;
-
-  if (shipSize > 1) {
-    if (axis === "x") {
-      x = findAlpha(coordinates[coordinates.length - 1][0]) + 1;
-      y = coordinates[coordinates.length - 1][1];
-    } else if (axis === "y") {
-      x = findAlpha(coordinates[coordinates.length - 1][0]);
+  /*
+  Takes in a size,
+  generates a random starting point,
+  from there either goes across or down till it fills the ship size
+  */
+  let x;
+  let y;
+  if (size > 1) {
+    if (axis === 0) {
+      //Y Axis
+      x = findAlphaIndex(coordinates[coordinates.length - 1][0]) + 1;
+      y = coordinates[0][1];
+    } else {
+      //X Axis
+      x = findAlphaIndex(coordinates[0][0]);
       y = coordinates[coordinates.length - 1][1] + 1;
     }
-    coordinates.push([alpha[x], y]);
-    generateShipCoordinates(shipSize - 1, coordinates, axis);
+    coordinates.push([findAlpha(x), y]);
+    generateShip(size - 1, coordinates, axis);
   }
   return coordinates;
 }
 
+function isShipOnBoard(board, coordinates) {
+  return coordinates.every((coordinate) => board[coordinate] !== undefined);
+}
+
 function avoidOverlap(board, coordinates) {
-  const indexes = [];
-  coordinates.forEach((coordinate) => {
-    indexes.push(findIndex(board, coordinate));
-  });
+  return coordinates.every(
+    (coordinate) =>
+      board[coordinate] !== undefined && board[coordinate].hasShip === null,
+  );
+}
 
-  let validValues = indexes.every((index) => {
-    return index !== undefined;
-  });
-
-  if (validValues === true) {
-    return indexes.every((index) => {
-      return board[index].hasShip === null;
+function checkSurroundings(board, indexes) {
+  /* 
+  Put surrounding indexes into an array
+  Filter out indexes that don't exist on the board
+  Then check that those left over indexes don't have a ship
+  */
+  let surroundings = [];
+  if (indexes[1] - indexes[0] === 10) {
+    //Y Axis
+    indexes.forEach((index) => {
+      surroundings.push(index - 1, index + 1);
     });
+    surroundings.push(indexes[0] - 10, indexes[indexes.length - 1] + 10);
   } else {
-    return false;
+    //X Axis
+    indexes.forEach((index) => {
+      surroundings.push(index - 10, index + 10);
+    });
+    surroundings.push(indexes[0] - 1, indexes[indexes.length - 1] + 1);
   }
+
+  surroundings = surroundings.filter((index) => board[index] !== undefined);
+  return surroundings.every(
+    (surroundingIndex) => board[surroundingIndex].hasShip === null,
+  );
 }
 
 export class Gameboard {
@@ -120,6 +146,26 @@ export class Gameboard {
       let index = findIndex(this.boardInfo, coordinate);
       return (this.boardInfo[index].hasShip = ship);
     });
+  }
+
+  placeShipRandomly(size) {
+    let ship = generateShip(size);
+
+    let indexes = [];
+    ship.forEach((coordinate) => {
+      indexes.push(findIndex(this.boardInfo, coordinate));
+    });
+
+    let valid = isShipOnBoard(this.boardInfo, indexes);
+    let overlap = avoidOverlap(this.boardInfo, indexes);
+    let surroundings = checkSurroundings(this.boardInfo, indexes);
+
+    if (!valid || !overlap || !surroundings) {
+      this.placeShipRandomly(size);
+      return;
+    }
+
+    this.placeShip(ship);
   }
 
   receiveAttack(coordinate) {
@@ -149,4 +195,4 @@ export class Gameboard {
   }
 }
 
-export { buildBoardInfo, generateShipCoordinates, avoidOverlap, findIndex };
+export { buildBoardInfo, findIndex };

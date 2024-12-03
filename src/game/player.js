@@ -1,10 +1,4 @@
-import {
-  Gameboard,
-  buildBoardInfo,
-  generateShipCoordinates,
-  avoidOverlap,
-  findIndex
-} from "./gameboard";
+import { Gameboard, buildBoardInfo, findIndex } from "./gameboard";
 
 function clearElement(element) {
   while (element.firstChild) {
@@ -67,20 +61,11 @@ export class Player {
   }
 
   placeRandomFleet() {
-    function placeCoordinates(board, shipSize) {
-      const shipCoordinates = generateShipCoordinates(shipSize);
-      if (avoidOverlap(board.boardInfo, shipCoordinates) === true) {
-        board.placeShip(shipCoordinates);
-      } else {
-        placeCoordinates(board, shipSize);
-      }
-    }
-
-    placeCoordinates(this.oceanBoard, 5);
-    placeCoordinates(this.oceanBoard, 4);
-    placeCoordinates(this.oceanBoard, 3);
-    placeCoordinates(this.oceanBoard, 3);
-    placeCoordinates(this.oceanBoard, 2);
+    this.oceanBoard.placeShipRandomly(5);
+    this.oceanBoard.placeShipRandomly(4);
+    this.oceanBoard.placeShipRandomly(3);
+    this.oceanBoard.placeShipRandomly(3);
+    this.oceanBoard.placeShipRandomly(2);
   }
 
   giveAttack(enemy, coordinate) {
