@@ -195,4 +195,4 @@ export class Gameboard {
   }
 }
 
-export { buildBoardInfo, findIndex };
+export { buildBoardInfo, findIndex, generateIndex };

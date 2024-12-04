@@ -1,4 +1,4 @@
-import { Gameboard, buildBoardInfo, findIndex } from "./gameboard";
+import { Gameboard, buildBoardInfo, findIndex, generateIndex } from "./gameboard";
 
 function clearElement(element) {
   while (element.firstChild) {
@@ -77,11 +77,13 @@ export class Player {
     } else {
       this.targetBoard[index].guess = true;
     }
+
+    this.displayBoards();
   }
 
   randomAttack(enemy) {
     let index = generateIndex(0, 99);
-    let coordinate = this.oceanBoard[index].coordinate;
+    let coordinate = this.oceanBoard.boardInfo[index].coordinate;
 
     if (enemy.oceanBoard.receiveAttack(coordinate) === "hit") {
       this.targetBoard[index].hit = true;
