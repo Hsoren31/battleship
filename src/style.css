@@ -38,11 +38,12 @@
 }
 
 #game_container {
-  display: flex;
+  display: none;
   gap: 10em;
 }
 
-.square_hit {
+.square_hit,
+.square_ship.square_hit {
   background-color: red;
 }
 
