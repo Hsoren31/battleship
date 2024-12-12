@@ -14,7 +14,6 @@ startGameBtn.addEventListener("click", (e) => {
   let controller = new Controller();
   //show the game board
   gameContainer.style.display = "flex";
-  controller.player1.displayBoards();
 
   //Place Fleet of Ships for both players
   placeFleetBtn.addEventListener("click", (e) => {
@@ -25,7 +24,7 @@ startGameBtn.addEventListener("click", (e) => {
 
   //Attack
   targetBoardContainer.addEventListener("click", (e) => {
-    if (e.target.className.toLowerCase() === "square") {
+    if (e.target.classList[0].toLowerCase() === "square") {
       let attack = e.target.dataset.coordinate;
       controller.playRound(attack)
     }

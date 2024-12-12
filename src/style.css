@@ -47,6 +47,10 @@
   background-color: red;
 }
 
+.ship_sunk {
+  border: 2px solid orange;
+}
+
 .square_ship {
   background-color: gray;
 }
