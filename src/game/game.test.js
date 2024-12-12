@@ -69,11 +69,30 @@ test("Recieve Attack hits && sinks", () => {
 test("Fleet of Ships is sunk", () => {
   let gameboard = new Gameboard();
   gameboard.placeShip(
-    [["A", 1], ["A", 2]],
-    [["H", 10], ["I", 10], ["J", 10]],
-    [["G", 6], ["G", 7], ["G", 8]],
-    [["C", 4], ["D", 4], ["E", 4]],
-    [["J", 3], ["J", 4], ["J", 5]],
+    [
+      ["A", 1],
+      ["A", 2],
+    ],
+    [
+      ["H", 10],
+      ["I", 10],
+      ["J", 10],
+    ],
+    [
+      ["G", 6],
+      ["G", 7],
+      ["G", 8],
+    ],
+    [
+      ["C", 4],
+      ["D", 4],
+      ["E", 4],
+    ],
+    [
+      ["J", 3],
+      ["J", 4],
+      ["J", 5],
+    ],
   );
 
   gameboard.receiveAttack(["A", 1]);
@@ -97,11 +116,30 @@ test("Fleet of Ships is sunk", () => {
 test("Fleet of Ships is not sunk", () => {
   let gameboard = new Gameboard();
   gameboard.placeShip(
-    [["A", 1], ["A", 2]],
-    [["H", 10], ["I", 10], ["J", 10]],
-    [["G", 6], ["G", 7], ["G", 8]],
-    [["C", 4], ["D", 4], ["E", 4]],
-    [["J", 3], ["J", 4], ["J", 5]],
+    [
+      ["A", 1],
+      ["A", 2],
+    ],
+    [
+      ["H", 10],
+      ["I", 10],
+      ["J", 10],
+    ],
+    [
+      ["G", 6],
+      ["G", 7],
+      ["G", 8],
+    ],
+    [
+      ["C", 4],
+      ["D", 4],
+      ["E", 4],
+    ],
+    [
+      ["J", 3],
+      ["J", 4],
+      ["J", 5],
+    ],
   );
 
   gameboard.receiveAttack(["A", 1]);
@@ -113,9 +151,8 @@ test("Fleet of Ships is not sunk", () => {
   gameboard.receiveAttack(["J", 3]);
   gameboard.receiveAttack(["J", 4]);
 
-
   expect(gameboard.isFleetSunk()).toBe(false);
-})
+});
 
 /* Player */
 

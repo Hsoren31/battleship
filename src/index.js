@@ -9,7 +9,7 @@ const targetBoardContainer = document.querySelector("#target_board");
 
 startGameBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  startGameBtn.style.display = 'none'
+  startGameBtn.style.display = "none";
   //Set controller
   let controller = new Controller();
   //show the game board
@@ -26,7 +26,7 @@ startGameBtn.addEventListener("click", (e) => {
   targetBoardContainer.addEventListener("click", (e) => {
     if (e.target.classList[0].toLowerCase() === "square") {
       let attack = e.target.dataset.coordinate;
-      controller.playRound(attack)
+      controller.playRound(attack);
     }
   });
 });

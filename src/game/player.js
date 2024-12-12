@@ -1,7 +1,9 @@
-import { Gameboard, buildBoardInfo, findIndex, generateIndex } from "./gameboard";
-
-
-
+import {
+  Gameboard,
+  buildBoardInfo,
+  findIndex,
+  generateIndex,
+} from "./gameboard";
 
 function getCoordinateFormatted(coordinate) {
   let coordinateFull = Array.from(coordinate);
@@ -43,7 +45,7 @@ export class Player {
 
   giveAttack(enemy, coordinate) {
     coordinate = getCoordinateFormatted(coordinate);
-    enemy.oceanBoard.receiveAttack(coordinate)
+    enemy.oceanBoard.receiveAttack(coordinate);
   }
 
   randomAttack(enemy) {
