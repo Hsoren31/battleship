@@ -7,6 +7,10 @@ const gameContainer = document.querySelector("#game_container");
 const placeFleetBtn = document.querySelector("#place_ships");
 const targetBoardContainer = document.querySelector("#target_board");
 
+const messageModal = document.querySelector('#end_game_msg');
+const restartGame = document.querySelector('#restart_game')
+const closeModal = document.querySelector('#close_modal')
+
 startGameBtn.addEventListener("click", (e) => {
   e.preventDefault();
   startGameBtn.style.display = "none";
@@ -30,3 +34,12 @@ startGameBtn.addEventListener("click", (e) => {
     }
   });
 });
+
+restartGame.addEventListener('click', () => {
+  window.location.reload()
+})
+
+closeModal.addEventListener('click', (e)=> {
+  e.preventDefault();
+  messageModal.close();
+})

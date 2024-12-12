@@ -188,7 +188,6 @@ export class Gameboard {
     const ships = this.boardInfo.filter((index) => {
       return index.hasShip !== null;
     });
-
     return ships.every((ship) => {
       return ship.hasShip.sunkStatus !== false;
     });
