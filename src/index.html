@@ -8,9 +8,43 @@
   <body>
     <header>
       <h1>Battleship</h1>
-      <button id="start_game">Start Game</button>
+      <button id="start_game">Play Game</button>
+      <button id="game_instructions">Instructions</button>
     </header>
     <main>
+      <div>
+        <dialog class="instructions">
+          <h2>Objective</h2>
+          <p>Be the first to sink all 5 of your opponent's ships.</p>
+
+          <h2>Preparation</h2>
+          <ol>
+            <li>Click the Start Game button to play</li>
+            <li>
+              To place your ships, click the Place Ships button Continue to
+              press this button until you are ready.
+            </li>
+            <li>Click the Ready button to start the game</li>
+          </ol>
+
+          <h2>Playing the Game</h2>
+          <p>
+            You will start the game by clicking on a coordinate on your target
+            board. Then you will either 'Hit' or 'Miss' your opponent's ships.
+            Then your opponent will attack.
+            <br />
+            A ship will sink when you have hit all coordinates that it is placed
+            on. It will highlight indicating it has sunk.
+          </p>
+
+          <h2>Winning the Game</h2>
+          <p>
+            The first player to sink their opponent's fleet of 5 ships wins!
+          </p>
+
+          <button class="close">Close Instructions</button>
+        </dialog>
+      </div>
       <div id="game_container">
         <section id="user_board" class="board">
           <div class="letter_labels">
@@ -72,7 +106,7 @@
       <dialog id="end_game_msg">
         <p class="win_message"></p>
         <button id="restart_game">Restart</button>
-        <button id="close_modal">Close</button>
+        <button class="close">Close</button>
       </dialog>
     </main>
   </body>

@@ -3,14 +3,21 @@ import "./style.css";
 import { Controller } from "./game/game";
 
 const startGameBtn = document.querySelector("#start_game");
+const gameInstructionsBtn = document.querySelector("#game_instructions");
+const instructionsModal = document.querySelector(".instructions");
 const gameContainer = document.querySelector("#game_container");
 const placeFleetBtn = document.querySelector("#place_ships");
-const contineGameBtn = document.querySelector('#continue_game');
+const contineGameBtn = document.querySelector("#continue_game");
 const targetBoardContainer = document.querySelector("#target_board");
 
-const messageModal = document.querySelector('#end_game_msg');
-const restartGame = document.querySelector('#restart_game')
-const closeModal = document.querySelector('#close_modal')
+const messageModal = document.querySelector("#end_game_msg");
+const restartGame = document.querySelector("#restart_game");
+const closeModal = document.querySelectorAll(".close");
+
+gameInstructionsBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  instructionsModal.showModal();
+});
 
 startGameBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -26,11 +33,11 @@ startGameBtn.addEventListener("click", (e) => {
     controller.setShips();
   });
 
-  contineGameBtn.addEventListener('click', (e) => {
+  contineGameBtn.addEventListener("click", (e) => {
     e.preventDefault();
     placeFleetBtn.style.display = "none";
     contineGameBtn.style.display = "none";
-  })
+  });
   //Attack
   targetBoardContainer.addEventListener("click", (e) => {
     if (e.target.classList[0].toLowerCase() === "square") {
@@ -40,11 +47,14 @@ startGameBtn.addEventListener("click", (e) => {
   });
 });
 
-restartGame.addEventListener('click', () => {
-  window.location.reload()
-})
+restartGame.addEventListener("click", () => {
+  window.location.reload();
+});
 
-closeModal.addEventListener('click', (e)=> {
-  e.preventDefault();
-  messageModal.close();
-})
+closeModal.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    e.preventDefault();
+    instructionsModal.close();
+    messageModal.close();
+  });
+});
