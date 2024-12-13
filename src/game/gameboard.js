@@ -192,6 +192,10 @@ export class Gameboard {
       return ship.hasShip.sunkStatus !== false;
     });
   }
+
+  clearBoard() {
+    this.boardInfo = buildBoardInfo();
+  }
 }
 
 export { buildBoardInfo, findIndex, generateIndex };

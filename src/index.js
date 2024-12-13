@@ -5,6 +5,7 @@ import { Controller } from "./game/game";
 const startGameBtn = document.querySelector("#start_game");
 const gameContainer = document.querySelector("#game_container");
 const placeFleetBtn = document.querySelector("#place_ships");
+const contineGameBtn = document.querySelector('#continue_game');
 const targetBoardContainer = document.querySelector("#target_board");
 
 const messageModal = document.querySelector('#end_game_msg');
@@ -23,9 +24,13 @@ startGameBtn.addEventListener("click", (e) => {
   placeFleetBtn.addEventListener("click", (e) => {
     e.preventDefault();
     controller.setShips();
-    placeFleetBtn.style.display = "none";
   });
 
+  contineGameBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    placeFleetBtn.style.display = "none";
+    contineGameBtn.style.display = "none";
+  })
   //Attack
   targetBoardContainer.addEventListener("click", (e) => {
     if (e.target.classList[0].toLowerCase() === "square") {
