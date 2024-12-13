@@ -45,12 +45,16 @@ export class Player {
 
   giveAttack(enemy, coordinate) {
     coordinate = getCoordinateFormatted(coordinate);
-    enemy.oceanBoard.receiveAttack(coordinate);
+    if(enemy.oceanBoard.receiveAttack(coordinate) === false){
+      return false;
+    }
   }
 
   randomAttack(enemy) {
     let index = generateIndex(0, 99);
     let coordinate = this.oceanBoard.boardInfo[index].coordinate;
-    enemy.oceanBoard.receiveAttack(coordinate);
+    if (enemy.oceanBoard.receiveAttack(coordinate) === false){
+      this.randomAttack(enemy);
+    }
   }
 }

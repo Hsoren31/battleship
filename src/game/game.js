@@ -70,7 +70,10 @@ export class Controller {
 
   //repeat for player 2
   playRound(coordinate) {
-    this.player1.giveAttack(this.player2, coordinate);
+    if(this.player1.giveAttack(this.player2, coordinate) === false) {
+      alert('You already attacked here. Try another coordinate.')
+      return;
+    }
     this.player2.randomAttack(this.player1);
     this.displayBoards();
 

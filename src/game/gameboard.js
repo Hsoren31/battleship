@@ -170,6 +170,12 @@ export class Gameboard {
 
   receiveAttack(coordinate) {
     let index = findIndex(this.boardInfo, coordinate);
+    if(this.boardInfo[index].hit) {
+      return false
+    }
+    if (this.boardInfo[index].guess){
+      return false
+    }
     if (this.boardInfo[index].hasShip !== null) {
       //Increase Ship hit count, check if ship sunk
       this.boardInfo[index].hasShip.hit();
