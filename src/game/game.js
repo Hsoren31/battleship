@@ -1,5 +1,6 @@
 //Game Controller
 import { Player } from "./player";
+const playerTurnLabel = document.querySelector("#player_turn");
 
 function clearElement(element) {
   while (element.firstChild) {
@@ -70,12 +71,16 @@ export class Controller {
 
   //repeat for player 2
   playRound(coordinate) {
-    if(this.player1.giveAttack(this.player2, coordinate) === false) {
-      alert('You already attacked here. Try another coordinate.')
+    if (this.player1.giveAttack(this.player2, coordinate) === false) {
+      alert("You already attacked here. Try another coordinate.");
       return;
     }
-    this.player2.randomAttack(this.player1);
-    this.displayBoards();
+
+    let compTime = Math.floor(Math.random(3) * 1000);
+    setTimeout(() => {
+      this.player2.randomAttack(this.player1);
+      this.displayBoards();
+    }, compTime);
 
     if (this.player1.oceanBoard.isFleetSunk()) {
       this.endGame("Player 2");
