@@ -1,6 +1,5 @@
 //Game Controller
 import { Player } from "./player";
-const playerTurnLabel = document.querySelector("#player_turn");
 
 function clearElement(element) {
   while (element.firstChild) {
@@ -12,22 +11,25 @@ function displayBoard(boardInfo, container, hide = false) {
   clearElement(container);
   for (let i = 0; i < 100; i++) {
     let square = document.createElement("div");
+    let icon = document.createElement("i");
+    square.appendChild(icon);
     square.className = "square";
     square.dataset.coordinate = boardInfo[i].coordinate;
 
     if (boardInfo[i].hit !== false) {
-      square.classList.add("square_hit");
+      icon.classList.add("fa-solid", "fa-xmark");
     }
 
     if (boardInfo[i].guess !== false) {
-      square.classList.add("square_guess");
+      icon.classList.add("fa-solid", "fa-circle");
     }
 
     if (!hide) {
       if (boardInfo[i].hasShip !== null) {
         square.classList.add("square_ship");
         if (boardInfo[i].hasShip.sunkStatus !== false) {
-          square.classList.add("ship_sunk");
+          icon.classList.remove("fa-xmark");
+          icon.classList.add("fa-burst");
         }
       }
     } else {
@@ -35,7 +37,8 @@ function displayBoard(boardInfo, container, hide = false) {
         boardInfo[i].hasShip !== null &&
         boardInfo[i].hasShip.sunkStatus !== false
       ) {
-        square.classList.add("ship_sunk");
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-burst");
       }
     }
 
@@ -75,7 +78,7 @@ export class Controller {
       alert("You already attacked here. Try another coordinate.");
       return;
     }
-
+    this.displayBoards();
     let compTime = Math.floor(Math.random(3) * 1000);
     setTimeout(() => {
       this.player2.randomAttack(this.player1);

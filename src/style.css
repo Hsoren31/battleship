@@ -1,16 +1,23 @@
-.square {
-  border: 1px solid black;
-  background-color: lightblue;
+body {
+  color: white;
+  background-color: rgb(3, 60, 65);
+  background-image: url("../src/images/ocean-wave.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
-.field-container {
-  display: grid;
-  gap: 2px;
-  grid-template-columns: repeat(10, minmax(30px, 50px));
-  grid-template-rows: repeat(10, minmax(30px, 50px));
+#game_container {
+  display: none;
+  gap: 10em;
+}
 
-  grid-row: 2 / 3;
-  grid-column: 2 / 3;
+.board {
+  background-color: rgba(0, 0, 0, 0.6);
+
+  display: grid;
+  grid-template-rows: 50px 500px;
+  grid-template-columns: 50px 500px;
 }
 
 .num_labels {
@@ -31,30 +38,30 @@
   grid-column: 1 / 2;
 }
 
-.board {
+.field-container {
   display: grid;
-  grid-template-rows: 50px 500px;
-  grid-template-columns: 50px 500px;
+  gap: 2px;
+  grid-template-columns: repeat(10, minmax(30px, 50px));
+  grid-template-rows: repeat(10, minmax(30px, 50px));
+
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
 }
 
-#game_container {
-  display: none;
-  gap: 10em;
+.square {
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.square_hit,
-.square_ship.square_hit {
-  background-color: red;
-}
-
-.ship_sunk {
-  border: 2px solid orange;
+.fa-xmark,
+.fa-burst {
+  color: rgb(233, 138, 21);
+  font-size: 26px;
 }
 
 .square_ship {
-  background-color: gray;
-}
-
-.square_guess {
-  background-color: lightgrey;
+  border: 2px solid rgb(138, 121, 104);
+  background-color: rgba(167, 153, 139, 0.4);
 }
