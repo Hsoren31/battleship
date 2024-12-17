@@ -3,191 +3,152 @@ import { Gameboard } from "./gameboard";
 import { Player } from "./player";
 
 /* Ship */
+let testShip = new Ship(4)
 
 test("hit increases number of hits", () => {
-  let testing = new Ship(1);
-  testing.hit();
+  testShip.hit();
 
-  expect(testing).toEqual({ length: 1, numOfHits: 1, sunkStatus: false });
+  expect(testShip).toEqual({ length: 4, numOfHits: 1, sunkStatus: false });
 });
 
 test("multiple hits", () => {
-  let testing = new Ship(1);
-  testing.hit();
-  testing.hit();
-  testing.hit();
+  testShip.hit();
+  testShip.hit();
 
-  expect(testing).toEqual({ length: 1, numOfHits: 3, sunkStatus: false });
+  expect(testShip).toEqual({ length: 4, numOfHits: 3, sunkStatus: false });
 });
 
 test("Sink ship", () => {
-  let testing = new Ship(3);
-  testing.hit();
-  testing.hit();
-  testing.hit();
+  testShip.hit();
 
-  expect(testing.isSunk()).toBe(true);
+  expect(testShip.isSunk()).toBe(true);
+  expect(testShip.sunkStatus).toBe(true)
 });
 
 /* Gameboard */
-test("Correctly placing Ships on board", () => {
-  let gameboard = new Gameboard();
-  gameboard.placeShip([
-    ["A", 2],
-    ["B", 2],
-  ]);
+let testGameboard = new Gameboard();
+testGameboard.placeShip([
+  ["A", 1],
+  ["A", 2]
+])
+testGameboard.placeShip([
+  ["H", 10],
+  ["I", 10],
+  ["J", 10]
+])
+testGameboard.placeShip([
+  ["G", 6],
+  ["G", 7],
+  ["G", 8]
+])
+testGameboard.placeShip([
+  ["C", 4],
+  ["D", 4],
+  ["E", 4]
+])
+testGameboard.placeShip([
+  ["J", 3],
+  ["J", 4],
+  ["J", 5]
+])
 
-  expect(gameboard.boardInfo[1].hasShip).toEqual({
-    length: 2,
+
+test("Correctly placing Ships on board", () => {
+  expect(testGameboard.boardInfo[92].hasShip).toEqual({
+    length: 3,
     numOfHits: 0,
     sunkStatus: false,
   });
-  expect(gameboard.boardInfo[11].hasShip).toEqual({
-    length: 2,
+  expect(testGameboard.boardInfo[93].hasShip).toEqual({
+    length: 3,
+    numOfHits: 0,
+    sunkStatus: false,
+  });
+  expect(testGameboard.boardInfo[94].hasShip).toEqual({
+    length: 3,
     numOfHits: 0,
     sunkStatus: false,
   });
 });
 
 test("Recieve Attack misses", () => {
-  let gameboard = new Gameboard();
-  gameboard.receiveAttack(["A", 4]);
+  testGameboard.receiveAttack(["B", 4])
 
-  expect(gameboard.boardInfo[3]).toHaveProperty("hit", false);
-  expect(gameboard.boardInfo[3]).toHaveProperty("guess", true);
+  expect(testGameboard.boardInfo[13]).toHaveProperty("hit", false);
+  expect(testGameboard.boardInfo[13]).toHaveProperty("guess", true);
 });
 
 test("Recieve Attack hits && sinks", () => {
-  let gameboard = new Gameboard();
-  gameboard.placeShip([["B", 4]]);
-  gameboard.receiveAttack(["B", 4]);
+  testGameboard.receiveAttack(["H", 10]);
+  testGameboard.receiveAttack(["I", 10]);
+  testGameboard.receiveAttack(["J", 10]);
 
-  expect(gameboard.boardInfo[13]).toHaveProperty("hit", true);
-  expect(gameboard.boardInfo[13].hasShip).toHaveProperty("sunkStatus", true);
-});
-
-test("Fleet of Ships is sunk", () => {
-  let gameboard = new Gameboard();
-  gameboard.placeShip(
-    [
-      ["A", 1],
-      ["A", 2],
-    ],
-    [
-      ["H", 10],
-      ["I", 10],
-      ["J", 10],
-    ],
-    [
-      ["G", 6],
-      ["G", 7],
-      ["G", 8],
-    ],
-    [
-      ["C", 4],
-      ["D", 4],
-      ["E", 4],
-    ],
-    [
-      ["J", 3],
-      ["J", 4],
-      ["J", 5],
-    ],
-  );
-
-  gameboard.receiveAttack(["A", 1]);
-  gameboard.receiveAttack(["A", 2]);
-  gameboard.receiveAttack(["H", 10]);
-  gameboard.receiveAttack(["I", 10]);
-  gameboard.receiveAttack(["J", 10]);
-  gameboard.receiveAttack(["G", 6]);
-  gameboard.receiveAttack(["G", 7]);
-  gameboard.receiveAttack(["G", 8]);
-  gameboard.receiveAttack(["C", 4]);
-  gameboard.receiveAttack(["D", 4]);
-  gameboard.receiveAttack(["E", 4]);
-  gameboard.receiveAttack(["J", 3]);
-  gameboard.receiveAttack(["J", 4]);
-  gameboard.receiveAttack(["J", 5]);
-
-  expect(gameboard.isFleetSunk()).toBe(true);
+  expect(testGameboard.boardInfo[89]).toHaveProperty("hit", true);
+  expect(testGameboard.boardInfo[89].hasShip).toHaveProperty("sunkStatus", true);
 });
 
 test("Fleet of Ships is not sunk", () => {
-  let gameboard = new Gameboard();
-  gameboard.placeShip(
-    [
-      ["A", 1],
-      ["A", 2],
-    ],
-    [
-      ["H", 10],
-      ["I", 10],
-      ["J", 10],
-    ],
-    [
-      ["G", 6],
-      ["G", 7],
-      ["G", 8],
-    ],
-    [
-      ["C", 4],
-      ["D", 4],
-      ["E", 4],
-    ],
-    [
-      ["J", 3],
-      ["J", 4],
-      ["J", 5],
-    ],
-  );
+  testGameboard.receiveAttack(["A", 1]);
+  testGameboard.receiveAttack(["G", 6]);
+  testGameboard.receiveAttack(["G", 8]);
+  testGameboard.receiveAttack(["D", 4]);
+  testGameboard.receiveAttack(["J", 3]);
+  testGameboard.receiveAttack(["J", 4]);
 
-  gameboard.receiveAttack(["A", 1]);
-  gameboard.receiveAttack(["H", 10]);
-  gameboard.receiveAttack(["J", 10]);
-  gameboard.receiveAttack(["G", 6]);
-  gameboard.receiveAttack(["G", 8]);
-  gameboard.receiveAttack(["D", 4]);
-  gameboard.receiveAttack(["J", 3]);
-  gameboard.receiveAttack(["J", 4]);
-
-  expect(gameboard.isFleetSunk()).toBe(false);
+  expect(testGameboard.isFleetSunk()).toBe(false);
 });
 
+test("Fleet of Ships is sunk", () => {
+  testGameboard.receiveAttack(["A", 2]);
+  testGameboard.receiveAttack(["G", 7]);
+  testGameboard.receiveAttack(["C", 4]);
+  testGameboard.receiveAttack(["E", 4]);
+  testGameboard.receiveAttack(["J", 5]);
+
+  expect(testGameboard.isFleetSunk()).toBe(true);
+});
+
+
+
 /* Player */
+let testPlayer1 = new Player();
+let testPlayer2 = new Player();
+testPlayer1.oceanBoard.placeShip([
+  ["H", 5],
+  ["H", 6],
+]);
+
+testPlayer2.oceanBoard.placeShip([["H", 3]]);
 
 test("Give Attack", () => {
   //give attack call recieveAttack on enemy board
-  let testPlayer = new Player();
-  let testPlayer2 = new Player();
-  testPlayer2.oceanBoard.placeShip([["H", 3]]);
-  testPlayer.giveAttack(testPlayer2, ["H", 3]);
+  testPlayer1.giveAttack(testPlayer2, ["H", 3]);
 
-  expect(testPlayer.targetBoard[72]).toHaveProperty("hit", true);
   expect(testPlayer2.oceanBoard.boardInfo[72]).toHaveProperty("hit", true);
 });
 
 test("Give Attack Misses", () => {
-  let testPlayer = new Player();
-  let testPlayer2 = new Player();
-  testPlayer.giveAttack(testPlayer2, ["H", 3]);
+  testPlayer1.giveAttack(testPlayer2, ["H", 4]);
 
-  expect(testPlayer.targetBoard[72]).toHaveProperty("guess", true);
-  expect(testPlayer2.oceanBoard.boardInfo[72]).toHaveProperty("guess", true);
+  expect(testPlayer2.oceanBoard.boardInfo[73]).toHaveProperty("guess", true);
 });
 
 test("Sink Ship with Attacks", () => {
-  let testPlayer = new Player();
-  let testPlayer2 = new Player();
-  testPlayer2.oceanBoard.placeShip([
-    ["H", 3],
-    ["H", 4],
-  ]);
-  testPlayer.giveAttack(testPlayer2, ["H", 3]);
-  testPlayer.giveAttack(testPlayer2, ["H", 4]);
+  testPlayer2.giveAttack(testPlayer1, ["H", 5]);
+  testPlayer2.giveAttack(testPlayer1, ["H", 6]);
 
-  expect(testPlayer2.oceanBoard.boardInfo[72].hasShip).toHaveProperty(
+  expect(testPlayer1.oceanBoard.boardInfo[74].hasShip).toHaveProperty(
+    "sunkStatus",
+    true,
+  );
+  expect(testPlayer1.oceanBoard.boardInfo[75].hasShip).toHaveProperty(
     "sunkStatus",
     true,
   );
 });
+
+test("Reject attack on previous attack", () => {
+  testPlayer2.giveAttack(testPlayer1, ["H", 5]);
+  
+  expect(testPlayer2.giveAttack(testPlayer1, ["H", 5])).toBe(false)
+})
