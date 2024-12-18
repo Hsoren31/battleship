@@ -1,10 +1,45 @@
+:root {
+  /* font families */
+  --ff-accent: "Oswald", serif;
+  --ff-base: "Quattrocento", serif;
+  /* font weight */
+  --fw-regular: 400;
+  --fw-bold: 600;
+  /* font sizes */
+  --fs-300: 1rem;
+  --fs-500: 1.375rem;
+  --fs-700: 2.25rem;
+  --fs-900: 3rem;
+
+  /* colors */
+  --clr-text: hsl(0, 0%, 95%);
+  --clr-text-shadow: hsl(186, 17%, 11%);
+  --clr-background: hsl(190, 98%, 19%);
+  --clr-button-bg: hsl(178, 95%, 78%);
+  --clr-button-text: hsl(185, 21%, 10%);
+  /* colors game */
+  --clr-board: hsla(0, 0%, 0%, 0.6);
+  --clr-border: hsl(0, 0%, 95%);
+  --clr-hit: hsl(39, 96%, 53%);
+  --clr-hit-shadow: hsl(39, 100%, 47%);
+  --clr-ship-border: hsl(178, 95%, 78%);
+  --clr-ship: hsla(178, 95%, 78%, 0.4);
+}
+
 body {
-  color: white;
-  background-color: rgb(3, 60, 65);
+  color: var(--clr-text);
+  background-color: var(--clr-background);
   background-image: url("../src/images/ocean-wave.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+
+h1 {
+  font-size: var(--fs-900);
+  font-family: var(--ff-accent);
+  font-weight: var(--fw-bold);
+  text-shadow: 1px 1px 2px var(--clr-text-shadow);
 }
 
 #game_container {
@@ -13,7 +48,7 @@ body {
 }
 
 .board {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--clr-board);
 
   display: grid;
   grid-template-rows: 50px 500px;
@@ -49,7 +84,7 @@ body {
 }
 
 .square {
-  border: 1px solid white;
+  border: 1px solid var(--clr-border);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,11 +92,18 @@ body {
 
 .fa-xmark,
 .fa-burst {
-  color: rgb(233, 138, 21);
+  color: var(--clr-hit);
   font-size: 26px;
+  text-shadow: 1px 1px 2px var(--clr-hit-shadow);
 }
 
 .square_ship {
-  border: 2px solid rgb(138, 121, 104);
-  background-color: rgba(167, 153, 139, 0.4);
+  border: 2px solid var(--clr-ship-border);
+  background-color: var(--clr-ship);
+}
+
+button {
+  background-color: var(--clr-button-bg);
+  color: var(--clr-button-text);
+  border: none;
 }
