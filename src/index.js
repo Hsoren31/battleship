@@ -2,6 +2,7 @@ import html from "./index.html";
 import "./style.css";
 import { Controller } from "./game/game";
 
+const header = document.querySelector("header");
 const startGameBtn = document.querySelector("#start_game");
 const gameInstructionsBtn = document.querySelector("#game_instructions");
 const instructionsModal = document.querySelector(".instructions");
@@ -21,6 +22,7 @@ gameInstructionsBtn.addEventListener("click", (e) => {
 
 startGameBtn.addEventListener("click", (e) => {
   e.preventDefault();
+  header.removeAttribute("id", "start_page");
   startGameBtn.style.display = "none";
   //Set controller
   let controller = new Controller();

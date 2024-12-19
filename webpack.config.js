@@ -10,7 +10,7 @@ module.exports = {
   },
   devtool: "eval-source-map",
   devServer: {
-    watchFiles: ["./src/index.html", "./src/index.js"],
+    watchFiles: ["./src/index.html"],
   },
   output: {
     filename: "[name].bundle.js",

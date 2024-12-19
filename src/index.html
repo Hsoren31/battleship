@@ -11,9 +11,15 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Quattrocento:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <header>
+    <header id="start_page">
       <h1>Battleship</h1>
       <button id="start_game">Play Game</button>
       <button id="game_instructions">Instructions</button>
@@ -79,9 +85,9 @@
             <p class="number">10</p>
           </div>
           <div id="user_field" class="field-container"></div>
-          <button id="place_ships">Place Ships</button>
-          <button id="continue_game">Ready</button>
         </section>
+        <button id="place_ships">Place Ships</button>
+        <button id="continue_game">Ready</button>
         <section id="target_board" class="board">
           <div class="letter_labels">
             <p class="letter">A</p>
