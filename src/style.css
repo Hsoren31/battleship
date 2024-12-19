@@ -50,6 +50,10 @@ body {
   background-position: center;
 }
 
+a {
+  color: var(--clr-button-bg);
+}
+
 #start_page {
   display: grid;
   grid-template-rows: 2fr 1fr;
@@ -166,4 +170,10 @@ button {
   color: var(--clr-button-text);
   border: none;
   padding: 0.5rem 1rem;
+}
+
+footer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
