@@ -27,7 +27,7 @@ startGameBtn.addEventListener("click", (e) => {
   //Set controller
   let controller = new Controller();
   //show the game board
-  gameContainer.style.display = "flex";
+  gameContainer.style.display = "grid";
   controller.displayBoards();
 
   //Place Fleet of Ships for both players
