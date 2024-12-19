@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Quattrocento:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  <script defer src="index.bundle.js"></script><script defer src="game.bundle.js"></script></head>
+  <body>
+    <header id="start_page">
+      <h1>Battleship</h1>
+      <button id="start_game">Play Game</button>
+      <button id="game_instructions">Instructions</button>
+    </header>
+    <main>
+      <div>
+        <dialog class="instructions">
+          <h2>Objective</h2>
+          <p>Be the first to sink all 5 of your opponent's ships.</p>
+
+          <h2>Preparation</h2>
+          <ol>
+            <li>Click the Start Game button to play</li>
+            <li>
+              To place your ships, click the Place Ships button Continue to
+              press this button until you are ready.
+            </li>
+            <li>Click the Ready button to start the game</li>
+          </ol>
+
+          <h2>Playing the Game</h2>
+          <p>
+            You will start the game by clicking on a coordinate on your target
+            board. Then you will either 'Hit' or 'Miss' your opponent's ships.
+            Then your opponent will attack.
+            <br />
+            A ship will sink when you have hit all coordinates that it is placed
+            on. It will highlight indicating it has sunk.
+          </p>
+
+          <h2>Winning the Game</h2>
+          <p>
+            The first player to sink their opponent's fleet of 5 ships wins!
+          </p>
+
+          <button class="close">Close Instructions</button>
+        </dialog>
+      </div>
+      <div id="game_container">
+        <section id="user_board" class="board">
+          <div class="letter_labels">
+            <p class="letter">A</p>
+            <p class="letter">B</p>
+            <p class="letter">C</p>
+            <p class="letter">D</p>
+            <p class="letter">E</p>
+            <p class="letter">F</p>
+            <p class="letter">G</p>
+            <p class="letter">H</p>
+            <p class="letter">I</p>
+            <p class="letter">J</p>
+          </div>
+          <div class="num_labels">
+            <p class="number">1</p>
+            <p class="number">2</p>
+            <p class="number">3</p>
+            <p class="number">4</p>
+            <p class="number">5</p>
+            <p class="number">6</p>
+            <p class="number">7</p>
+            <p class="number">8</p>
+            <p class="number">9</p>
+            <p class="number">10</p>
+          </div>
+          <div id="user_field" class="field-container"></div>
+        </section>
+        <button id="place_ships">Place Ships</button>
+        <button id="continue_game">Ready</button>
+        <section id="target_board" class="board">
+          <div class="letter_labels">
+            <p class="letter">A</p>
+            <p class="letter">B</p>
+            <p class="letter">C</p>
+            <p class="letter">D</p>
+            <p class="letter">E</p>
+            <p class="letter">F</p>
+            <p class="letter">G</p>
+            <p class="letter">H</p>
+            <p class="letter">I</p>
+            <p class="letter">J</p>
+          </div>
+          <div class="num_labels">
+            <p class="number">1</p>
+            <p class="number">2</p>
+            <p class="number">3</p>
+            <p class="number">4</p>
+            <p class="number">5</p>
+            <p class="number">6</p>
+            <p class="number">7</p>
+            <p class="number">8</p>
+            <p class="number">9</p>
+            <p class="number">10</p>
+          </div>
+          <div id="target_field" class="field-container"></div>
+        </section>
+      </div>
+      <dialog id="end_game_msg">
+        <p class="win_message"></p>
+        <button id="restart_game">Restart</button>
+        <button class="close">Close</button>
+      </dialog>
+    </main>
+  </body>
+  <footer>
+    <p>
+      Project on
+      <a href="https://github.com/Hsoren31/battleship">Github</a>
+    </p>
+    <p>Created by Haley Sorensen</p>
+    <p>
+      Photo by
+      <a
+        href="https://unsplash.com/@unstable_affliction?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+        >Ivan Bandura</a
+      >
+      on
+      <a
+        href="https://unsplash.com/photos/crashing-waves-5cwigXmGWTo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+        >Unsplash</a
+      >
+    </p>
+  </footer>
+</html>
