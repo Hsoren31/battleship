@@ -136,6 +136,7 @@ h1 {
   position: absolute;
   top: 10px;
   right: 15px;
+  cursor: grab;
 }
 
 #images_guide {
@@ -285,7 +286,7 @@ footer {
 }
 
 #restart_game {
-  margin-right: 0.5rem;
+  margin-left: 2rem;
 }
 
 .win_message {
