@@ -239,6 +239,8 @@ footer {
   display: flex;
   gap: 10px;
   justify-content: center;
+  padding: 1rem 0;
+  background-color: var(--clr-board);
 }
 
 #end_game_msg {
