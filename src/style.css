@@ -56,6 +56,11 @@ a {
   color: var(--clr-button-bg);
 }
 
+a,
+button {
+  cursor: grab;
+}
+
 li {
   list-style: none;
 }
@@ -238,6 +243,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: crosshair;
 }
 
 .fa-xmark,
