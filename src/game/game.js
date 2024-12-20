@@ -1,6 +1,9 @@
 //Game Controller
 import { Player } from "./player";
 
+const userTurnLabel = document.querySelector(".user_turn");
+const compTurnLabel = document.querySelector(".comp_turn");
+
 function clearElement(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
@@ -51,10 +54,7 @@ export class Controller {
     this.player1 = new Player();
     this.player2 = new Player();
   }
-
-  //Methods
-  //Start Game
-  //Both players place their fleet of ships
+  /*Set ships for both players */
   setShips() {
     this.player1.oceanBoard.clearBoard();
     this.player2.oceanBoard.clearBoard();
@@ -63,36 +63,34 @@ export class Controller {
 
     this.displayBoards();
   }
-  //switch Player Turns
-
-  //Check that both players placed their ships.
-  //Start with Player 1
-  //Get attack on player 2
-  //Update Boards
-  //Check for sunken ship
-  //Check for end game
-
-  //repeat for player 2
+  /*Plays Users turn, and computer's Turn */
   playRound(coordinate) {
+    this.userTurn(coordinate);
+    this.computerTurn();
+  }
+
+  userTurn(coordinate) {
+    /*prevent attack on the same coordinate */
     if (this.player1.giveAttack(this.player2, coordinate) === false) {
       alert("You already attacked here. Try another coordinate.");
       return;
     }
     this.displayBoards();
-    let compTime = Math.floor(Math.random(3) * 1000);
-    setTimeout(() => {
-      this.player2.randomAttack(this.player1);
-      this.displayBoards();
-    }, compTime);
-
-    if (this.player1.oceanBoard.isFleetSunk()) {
-      this.endGame("Player 2");
-    }
+    /*Check opponents fleet for end game*/
     if (this.player2.oceanBoard.isFleetSunk()) {
       this.endGame("Player 1");
     }
   }
 
+  computerTurn() {
+    this.player2.randomAttack(this.player1);
+    this.displayBoards();
+    /*Check opponents fleet for end game*/
+    if (this.player1.oceanBoard.isFleetSunk()) {
+      this.endGame("Player 2");
+    }
+  }
+  /* display both boards for user player*/
   displayBoards() {
     const userBoard = document.querySelector("#user_field");
     const targetBoard = document.querySelector("#target_field");
@@ -100,7 +98,7 @@ export class Controller {
     displayBoard(this.player1.oceanBoard.boardInfo, userBoard);
     displayBoard(this.player2.oceanBoard.boardInfo, targetBoard, true);
   }
-
+  /*End game message modal declares winner */
   endGame(winner) {
     const messageModal = document.querySelector("#end_game_msg");
     const message = document.querySelector(".win_message");
